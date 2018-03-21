@@ -1,0 +1,77 @@
+﻿@inherits UmbracoViewPage
+
+@using Umbraco.Web.Models
+
+@{
+    IEnumerable<RelatedLink> socialLinks = Model.AncestorOrSelf(1).GetPropertyValue<IEnumerable<RelatedLink>>("socialLinks");
+    var homePage = Model.AncestorOrSelf(1);
+}
+
+<!-- Footer -->
+<footer class="py-5" style="background-color: #2ea3f2">
+    <div class="container">
+        <div class="row content text-white">
+            <div class="col-12 col-md-4">
+                <div class="media-wrap">
+                    @(Html.Raw(homePage.GetPropertyValue("embeddedSocialPage")))
+                    @*<iframe name="f122f8d6fa6c04" allowtransparency="true" allowfullscreen="true" scrolling="no" title="fb:page Facebook Social Plugin" style="border: medium none; visibility: visible; height: 214px;" src="https://www.facebook.com/v2.8/plugins/page.php?adapt_container_width=true&amp;app_id=1495587033816503&amp;channel=http%3A%2F%2Fstaticxx.facebook.com%2Fconnect%2Fxd_arbiter%2Fr%2FhsBwMj6iLmk.js%3Fversion%3D42%23cb%3Dfd2cbc755592c%26domain%3Dnhathuoclanggieng.vn%26origin%3Dhttp%253A%252F%252Fnhathuoclanggieng.vn%252Ff16d1005939f8f2%26relation%3Dparent.parent&amp;container_width=300&amp;hide_cover=false&amp;href=https%3A%2F%2Fwww.facebook.com%2FNhaThuocLangGieng&amp;locale=en_US&amp;sdk=joey&amp;show_facepile=true&amp;small_header=false" class="" frameborder="0"></iframe>*@
+                </div>
+            </div>
+            <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                <h5 class="pb-3">
+                    Address
+                </h5>
+                <p class="mbr-text">
+                    @homePage.GetPropertyValue("address1")
+                    <br>@homePage.GetPropertyValue("address2")
+                </p>
+            </div>
+            <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                <h5 class="pb-3">
+                    Contacts
+                </h5>
+                <p class="mbr-text">
+                    Email: @homePage.GetPropertyValue("email")
+                    <br>Phone: @homePage.GetPropertyValue("phone")
+                    <br>Fax: @homePage.GetPropertyValue("fax")
+                </p>
+            </div>
+            <div class="col-12 col-md-2 mbr-fonts-style display-7">
+                <h5 class="pb-3">
+                    Socials
+                </h5>
+                @if (socialLinks != null && socialLinks.Any())
+                {
+                    <ul class="noliststyletype" style="padding: 0px;">
+                        @foreach (var link in socialLinks)
+                        {
+
+                            <li><a target=@(link.NewWindow ? "_blank" : null) href="@link.Link"><i class="fa fa-@link.Caption text-white">&nbsp; &nbsp; @link.Caption</i></a></li>
+                        }
+                    </ul>
+                }
+            </div>
+        </div>
+        <div class="footer-lower">
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr>
+                </div>
+            </div>
+            <div class="row mbr-white">
+                <div class="col-sm-6 copyright">
+                    <p class="mbr-text mbr-fonts-style display-7">
+                        © Copyright @DateTime.Now.Year.ToString() @homePage.GetPropertyValue("pageTitle") - All Rights Reserved
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <div class="social-list align-right float-md-right">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /.container -->
+</footer>

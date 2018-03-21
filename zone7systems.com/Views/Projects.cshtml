@@ -1,0 +1,35 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.pageTitle)
+                    ? CurrentPage.Name
+                    : CurrentPage.pageTitle;
+
+    var projects = CurrentPage.Children.Where("Visible");
+}
+
+<div class="container">
+    <!-- Image Header -->
+    @Html.Partial("./Layouts/_PageBanner")
+    <h1 class="mt-4 mb-3 text-center">
+        @pageTitle
+        @*<small>Subheading</small>*@
+    </h1>
+    <div class="row">
+        @foreach (var project in projects)
+        {
+            string url = project.Url;
+            <div class="col-lg-4 col-sm-6 portfolio-item">
+                <div class="card h-100">
+                    <a href="@url"><img class="card-img-top" src="@(project.image.Url)" alt=""></a>
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            <a href="@url">@project.pageTitle</a>
+                        </h4>
+                        <p class="card-text">@project.pageDescription</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿@inherits UmbracoTemplatePage
+
+@{
+    var parentPage = Model.Content.AncestorOrSelf(1);
+    var parentType = parentPage.Children.Where(x => x.DocumentTypeAlias == "customers").FirstOrDefault();
+    //var nestedContents = parentType.GetPropertyValue<IEnumerable<IPublishedContent>>("customerTestimonials");
+
+    var testimonials = parentType?.Children.Where(x => x.IsVisible());
+
+    var umbHelper = new UmbracoHelper();
+}
+
+<link href="~/css/multi-carousel.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="MultiCarousel" data-items="1,3,5,6" data-slide="1" id="MultiCarousel" data-interval="1000">
+        <div class="MultiCarousel-inner">
+            @if (testimonials != null && testimonials.Count() > 0)
+            {
+                foreach (var testimonial in testimonials.OrderByDescending(x => x.CreateDate).ToList())
+                {
+                    <div class="item">
+                        <div class="pad15">
+                            <a href="@testimonial.Url">
+                                <img src="@(testimonial.GetPropertyValue<IPublishedContent>("image").Url)" />
+                            </a>
+                            <p class="lead">@testimonial.GetProperty("pageTitle").DataValue.ToString()</p>
+                            <p>@(umbHelper.Truncate(testimonial.GetProperty("pageDescription").DataValue.ToString(), 200))</p>
+
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <button class="btn btn-primary leftLst"><</button>
+        <button class="btn btn-primary rightLst">></button>
+    </div>
+</div>
+
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/js/multi-carousel.js"></script>

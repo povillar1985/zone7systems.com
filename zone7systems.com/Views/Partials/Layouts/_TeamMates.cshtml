@@ -1,0 +1,42 @@
+﻿@inherits UmbracoTemplatePage
+@using Umbraco.Web.Models
+
+@{
+    var nestedContents = Model.Content.GetPropertyValue<IEnumerable<IPublishedContent>>("teamMates");
+}
+
+<!-- Team Members -->
+<h2>Our Team</h2>
+<div class="row">
+    @if (nestedContents != null && nestedContents.Count() > 0)
+    {
+        foreach (var item in nestedContents)
+        {
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100 text-center">
+                    @*<img class="card-img-top" src="http://placehold.it/750x450" alt="">*@
+                    <img class="card-img-top" src="@(item.GetPropertyValue<IPublishedContent>("photo").Url)" alt="">
+                    <div class="card-body">
+                        <h4 class="card-title">@item.GetProperty("fullName").DataValue.ToString()</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">@item.GetProperty("position").DataValue.ToString()</h6>
+                        <p class="card-text">@item.GetProperty("description").DataValue.ToString()</p>
+                    </div>
+
+                    <div class="card-footer">
+                        @{
+                            var socialLinks = item.GetPropertyValue<IEnumerable<RelatedLink>>("socials");
+
+                            if (socialLinks!=null && socialLinks.Any())
+                            {
+                                foreach (var social in socialLinks)
+                                {
+                                    <a href="@social.Link" target="_blank">@social.Caption</a>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

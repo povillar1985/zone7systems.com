@@ -1,0 +1,17 @@
+﻿@inherits UmbracoViewPage
+@using Umbraco.Web.Models
+@{
+    IEnumerable<RelatedLink> socialRelatedLinks = Model.AncestorOrSelf(1).GetPropertyValue<IEnumerable<RelatedLink>>("socialLinks");
+
+    if (socialRelatedLinks != null && socialRelatedLinks.Any())
+    {
+        <ul class="noliststyletype" style="padding: 0px;">
+            <li class="float-left text-primary">Share&nbsp;<i class="fa fa-share-square">&nbsp; &nbsp;</i></li>
+            @foreach (var link in socialRelatedLinks)
+            {
+
+                <li class="float-left"><a target="_blank" href="@link.Link"><i class="fa fa-@link.Caption"></i></a></li>
+            }
+        </ul>
+    }
+}

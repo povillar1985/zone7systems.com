@@ -1,0 +1,51 @@
+﻿@inherits UmbracoViewPage<zone7systems.com.Models.Contact>
+
+
+@using (Html.BeginUmbracoForm<zone7systems.com.Controllers.ContactSurfaceController>("HandleFormPost", FormMethod.Post, new { id = "frmContact", @class = "form-theme" }))
+{
+    <style type="text/css">
+        input[type='text'], input[type='email'], textarea {
+            width: 100%;
+        }
+
+        textarea {
+            height: 145px;
+        }
+
+        .form-group {
+            text-align: left;
+        }
+    </style>
+
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        <label class="control-label">Full Name (*)</label>
+        <div class="">
+            @Html.TextBoxFor(x => x.FullName, new { @required = "required", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Email (*)</label>
+        <div class="">
+            @Html.TextBoxFor(x => x.Email, new { @required = "required", @type = "email", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Phone (*)</label>
+        <div class="">
+            @Html.TextBoxFor(x => x.Phone, new { @required = "required", @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Message (*)</label>
+        <div class="">
+            @Html.TextAreaFor(x => x.Message, new { @required = "required", @class = "form-control" })
+        </div>
+    </div>
+    <br />
+    <input type="submit" value="Submit" id="btnSubmitContact" class="btn btn-primary" />
+    <div id="alertDialog" title="Sent" hidden="hidden">
+        <p>Thank you for contacting us. We'll get back to you as soon as possible!</p>
+    </div>
+}

@@ -1,0 +1,24 @@
+﻿@inherits UmbracoViewPage
+
+@{
+    var selections = Model.Ancestors();
+}
+
+@if (selections.Any())
+{
+    <div class="container">
+        <ol class="breadcrumb" style="background-color: transparent; font-size: small; padding: 0px;">
+            <li class="breadcrumb-item">
+                <a href="/" class="fa fa-home"></a>
+            </li>
+            @foreach (var selection in selections.OrderBy(x=>x.Level).Skip(1).ToList())
+            {
+                <li class="breadcrumb-item">
+                    <a href="@selection.Url">@selection.Name</a>
+                </li>
+            }
+
+            <li class="breadcrumb-item">@Model.Name</li>
+        </ol>
+    </div>
+}

@@ -1,0 +1,60 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.pageTitle)
+        ? CurrentPage.Name
+        : CurrentPage.pageTitle;
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div id="@CurrentPage.Id" class="carousel slide" data-ride="carousel">
+                @{
+                    int ctr = 0;
+                    var images = CurrentPage.GetPropertyValue<IEnumerable<IPublishedContent>>("sliderImages");
+                    <ol class="carousel-indicators">
+                        @if (images != null && images.Count > 0)
+                        {
+                            for (int i = 0; i < images.Count; i++)
+                            {
+                                <li data-target="#@CurrentPage.Id" data-slide-to="@i" class="@(i < 1 ? "active" : "")"></li>
+                            }
+                        }
+                    </ol>
+                    <div class="carousel-inner" role="listbox">
+                        @foreach (var img in images)
+                        {
+                            <div class="carousel-item @(ctr < 1 ? "active" : "")" style="background-image: url('@img.Url');">
+                            </div>
+                            ctr++;
+                        }
+
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h2 class="card-title">@pageTitle</h2>
+            @*<a href="#" class="btn btn-primary">Buy &rarr;</a>*@
+            <p>@CurrentPage.Content</p>
+            <a href="#" class="btn btn-primary">Buy &rarr;</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <br />
+            @Html.Partial("./Layouts/_SocialShareLinks")
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-xl-12 text-center">
+            <h3>PRODUCT PRICING</h3>
+        </div>
+        <div class="col-xl-12">
+            @Html.Partial("./Layouts/_ProductPlans")
+            <br />
+        </div>
+    </div>
+</div>

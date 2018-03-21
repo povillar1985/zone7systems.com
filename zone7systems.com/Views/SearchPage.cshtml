@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+
+    var searchquery = Request.QueryString["query"];
+}
+
+<div class="container">
+    @if (!string.IsNullOrWhiteSpace(searchquery))
+    {
+        <p>Your search for <strong>@searchquery</strong></p>
+        <ul>
+            @foreach (var result in Umbraco.Search(searchquery))
+            {
+                <li>
+                    <a href="@result.Url">@result.Name</a>
+                </li>
+            }
+        </ul>
+
+    }
+</div>

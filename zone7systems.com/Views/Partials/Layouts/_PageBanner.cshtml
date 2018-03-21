@@ -1,0 +1,38 @@
+﻿@inherits UmbracoViewPage
+
+@{
+    var multimediaPicker = Model.GetPropertyValue<IEnumerable<IPublishedContent>>("sliderImages");
+
+    if (multimediaPicker != null && multimediaPicker.Count() > 0)
+    {
+        if (multimediaPicker.Count() > 1)
+        {
+            //make carousel here
+            <div class="carousel-inner" role="listbox">
+
+                @{
+                    int ctr = 0;
+                    foreach (var img in multimediaPicker)
+                    {
+                        <div class="carousel-item @(ctr < 1 ? "active" : "")" style="background-image: url('@img.Url')">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>@Model.GetProperty("sliderTitle").DataValue.ToString()</h3>
+                                <p>@Model.GetProperty("sliderDescription").DataValue.ToString()</p>
+                            </div>
+                        </div>
+
+                        ctr++;
+                    }
+                }
+            </div>
+        }
+        else
+        {
+            //banner design
+            <img src="@multimediaPicker.FirstOrDefault().Url" style="width: 100%;" />
+        }
+
+        <br/>
+        <br/>
+    }
+}

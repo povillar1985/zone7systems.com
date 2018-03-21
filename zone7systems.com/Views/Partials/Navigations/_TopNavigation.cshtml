@@ -1,0 +1,55 @@
+﻿@inherits UmbracoViewPage
+
+@using Umbraco.Web.Models
+@{
+    IEnumerable<RelatedLink> socialLinks = Model.AncestorOrSelf(1).GetPropertyValue<IEnumerable<RelatedLink>>("socialLinks");
+}
+
+<div class="top_bar fixed-top">
+    <div class="container">
+        <div class="col-md-6 col-sm-6 col-xs-12 nopadding position-absolute">
+            <ul class="social">
+                <li>
+                    <a><i class="fa fa-phone-square text-white" aria-hidden="true"> <strong>08.7305.0333</strong> </i></a>
+                </li>
+                <li>
+                    <a><i class="text-white">|</i></a>
+                </li>
+                <li>
+                    <a href="mailto:info@email.com"><i class="fa fa-envelope-square text-white" aria-hidden="true"> <strong>info@email.com</strong> </i></a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12 float-right nopadding">
+            <div class="collapse navbar-collapse float-right show">
+                <ul class="social">
+                    <li>
+                        @if (socialLinks != null && socialLinks.Any())
+                        {
+                            <ul class="noliststyletype">
+                                @foreach (var link in socialLinks)
+                                {
+
+                                    <li><a target="_blank" href="@link.Link"><i class="fa fa-@link.Caption text-white"></i></a></li>
+                                }
+                                @*<li></li>*@
+                            </ul>
+                        }
+                    </li>
+                    @*<li class="nav-item  dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img id="imgNavSel" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavSel">VN</span> <span class="caret"></span></a>
+                            <div class="dropdown-menu" role="menu">
+                                <a id="navVN" href="#" class="language"> <img id="imgNavVN" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavVN">Vietnam</span></a><br />
+                                <a id="navEN" href="#" class="language"> <img id="imgNavEN" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavEN">English</span></a><br />
+                                <a id="navKR" href="#" class="language"><img id="imgNavKR" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavKR">Korea</span></a><br />
+                                <a id="navJP" href="#" class="language"><img id="imgNavJP" src="" alt="..." class="img-thumbnail icon-small">  <span id="lanNavJP">Japan</span></a>
+                            </div>
+                        </li>*@
+                </ul>
+            </div>
+        </div>
+        <div class="row" hidden>
+            @Html.Partial("./Forms/_SearchForm")
+        </div>
+    </div>
+</div>

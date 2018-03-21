@@ -1,0 +1,33 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+
+    var services = CurrentPage.Children.Where("Visible");
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.pageTitle)
+        ? CurrentPage.Name
+        : CurrentPage.pageTitle;
+}
+
+<div class="container">
+    <!-- Image Header -->
+    @Html.Partial("./Layouts/_PageBanner")
+    <h1 class="mt-4 mb-3 text-center">
+        @pageTitle
+    </h1>
+    <div class="row">
+        @foreach (var service in services)
+        {
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <h4 class="card-header">@service.Name</h4>
+                    <div class="card-body">
+                        <p class="card-text">@service.pageDescription</p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="@service.Url" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

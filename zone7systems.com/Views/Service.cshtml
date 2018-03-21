@@ -1,0 +1,18 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.pageTitle)
+    ? CurrentPage.Name
+    : CurrentPage.pageTitle;
+}
+
+<div class="container">
+    @Html.Partial("./Layouts/_PageBanner")
+
+    <div class="row">
+        <div class="col-xl-12">
+            @CurrentPage.pageContent
+        </div>
+    </div>
+</div>
+

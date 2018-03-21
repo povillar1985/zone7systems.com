@@ -1,0 +1,59 @@
+﻿@inherits UmbracoTemplatePage
+
+@{
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+    var pages = homePage.Children.Where("Visible");
+}
+<style type="text/css">
+    .custom-toggler.navbar-toggler {
+        border-color: rgb(255,102,203);
+    }
+
+    .custom-toggler .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,102,203, 0.7)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+    }
+</style>
+
+<nav class="navbar navbar-light navbar-expand-lg main-navigation">
+    <div class="container">
+        <a class="navbar-brand" href="/"><img src="@(homePage.logo.Url)" height="50"></a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                @foreach (var page in pages)
+                {
+                    if (page.hideInNavigation == false)
+                    {
+                        var childPages = page.Children.Where("Visible");
+
+                        if (childPages != null && childPages.Count() > 0 && page.childMenusEnabled)
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="@page.Url" id="@page.Id" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @page.Name
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                                    @foreach (var childPage in childPages)
+                                    {
+                                        <a class="dropdown-item" href="@childPage.Url">@childPage.Name</a>
+                                    }
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="@page.Url">@page.Name</a>
+                            </li>
+                        }
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

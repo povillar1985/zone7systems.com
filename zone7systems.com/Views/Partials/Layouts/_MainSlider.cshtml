@@ -1,0 +1,75 @@
+﻿@inherits UmbracoTemplatePage
+
+@{
+    //var typedMultiMediaPicker = Model.Content.GetPropertyValue<IEnumerable<IPublishedContent>>("sliderImages");
+    int ctr = 0;
+    //bool hasImage = Model.Content.HasValue("sliderImages");
+
+
+    var nestedContents = Model.Content.GetPropertyValue<IEnumerable<IPublishedContent>>("sliders");
+}
+
+<header>
+    <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            @*@if (hasImage)
+                {
+                    foreach (var item in typedMultiMediaPicker)
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@ctr" class="@(ctr<1?"active":"")"></li>
+                        ctr++;
+                    }
+                }*@
+            @if (nestedContents != null && nestedContents.Count() > 0)
+            {
+                for (ctr = 0; ctr < nestedContents.Count(); ctr++)
+                {
+                    <li data-target="#carouselIndicators" data-slide-to="@ctr" class="@(ctr < 1 ? "active" : "")"></li>
+                }
+            }
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            @*@if (hasImage)
+                {
+                    ctr = 0;
+                    foreach (var item in typedMultiMediaPicker)
+                    {
+                        <div class="carousel-item @(ctr<1?"active":"")" style="background-image: url('@item.Url')">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3>First Slide</h3>
+                                <p>This is a description for the first slide.</p>
+                            </div>
+                        </div>
+
+                        ctr++;
+                    }
+                }*@
+
+            @{
+                ctr = 0;
+                foreach (var item in nestedContents)
+                {
+                    var images = item.GetPropertyValue<IEnumerable<IPublishedContent>>("sliderImages");
+
+                    <div class="carousel-item @(ctr < 1 ? "active" : "")" style="background-image: url('@images.FirstOrDefault().Url')">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3>@item.GetProperty("sliderTitle").DataValue.ToString()</h3>
+                            <p>@item.GetProperty("sliderDescription").DataValue.ToString()</p>
+                        </div>
+                    </div>
+
+                    ctr++;
+                }
+            }
+        </div>
+
+        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>

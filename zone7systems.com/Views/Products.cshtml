@@ -1,0 +1,37 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "Master.cshtml";
+
+    var products = CurrentPage.Children.Where("Visible");
+    var pageTitle = string.IsNullOrWhiteSpace(CurrentPage.pageTitle)
+        ? CurrentPage.Name
+        : CurrentPage.pageTitle;
+}
+<!-- Page Content -->
+<div class="container">
+    <!-- Image Header -->
+    @Html.Partial("./Layouts/_PageBanner")
+    <h1 class="mt-4 mb-3 text-center">
+        @pageTitle
+        @*<small>Subheading</small>*@
+    </h1>
+    @foreach (var product in products)
+    {
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img src="@product.image.Url" />
+                    </div>
+                    <div class="col-lg-6">
+                        <h2 class="card-title">@product.pageTitle</h2>
+                        <p>@product.pageDescription</p>
+                        <a href="@product.Url" class="text-sm-left">Details &rarr;</a><br />
+                        <a href="@product.Url" class="text-sm-left">Buy Now &rarr;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<!-- /.container -->

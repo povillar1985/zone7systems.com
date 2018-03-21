@@ -1,0 +1,220 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+    var title = CurrentPage.pageTitle;
+    var description = CurrentPage.description;
+    var keywords = CurrentPage.keywords;
+    var home = CurrentPage.AncestorsOrSelf(1).First();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="@description">
+    <meta name="author" content="">
+    <meta name="keywords" content="@keywords" />
+    <title>@title</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    @*<link rel="shortcut icon" href="@home.favicon.Url" />*@
+    <!-- Custom styles for this template -->
+    <link href="~/css/modern-business.css" rel="stylesheet">
+    <style>
+        header {
+            margin-bottom: 20px;
+            margin-top: -10px;
+        }
+
+        .main-navigation {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .navbar-default .navbar-nav > li.dropdown:hover > a,
+        .navbar-default .navbar-nav > li.dropdown:hover > a:hover,
+        .navbar-default .navbar-nav > li.dropdown:hover > a:focus {
+            /*background-color: rgb(231, 231, 231);*/
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #2ea3f2;
+            color: #ffffff;
+        }
+
+        li.dropdown:hover > .dropdown-menu {
+            display: block;
+            margin: 0px !important;
+        }
+
+        .service-item {
+            margin-bottom: 20px;
+        }
+
+        .bg-dark {
+            background-color: #2ea3f2 !important;
+        }
+
+        .nav-link, .dropdown-item, .language {
+            color: #5b5b5b !important;
+        }
+
+            .dropdown-item:hover {
+                color: #fff !important;
+            }
+
+        a.nav-link:visited {
+            color: #1e73be;
+        }
+
+        #lanNavSel {
+            color: #fff !important;
+        }
+
+        a.nav-link:hover {
+            color: #1e73be;
+        }
+
+        .top_bar {
+            min-height: 30px; /*
+                    background: #30bed6; /* Old browsers */
+            background: -moz-linear-gradient(left, #2ea3f2 0%, #2ea3f2 100%); /* FF3.6-15 */
+            background: -webkit-linear-gradient(left, #2ea3f2 0%,#2ea3f2 100%); /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to right, #2ea3f2 0%,#2ea3f2 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2ea3f2', endColorstr='#2ea3f2',GradientType=1 ); /* IE6-9 */
+        }
+
+        .nopadding {
+            padding: 0px;
+        }
+
+        .noliststyletype {
+            list-style-type: none;
+        }
+
+        .social {
+            list-style-type: none;
+            margin-bottom: 0px;
+            float: left;
+            padding: 0px;
+            margin-left: 0px;
+            margin-top: -5px;
+        }
+
+            .social li {
+                float: left;
+            }
+
+                .social li a {
+                    padding: 0 10px;
+                    font-size: 13px;
+                    line-height: 40px;
+                    color: #FFF;
+                }
+
+        .rightc {
+            list-style-type: none;
+            margin-bottom: 0px;
+            float: right;
+        }
+
+            .rightc li {
+                margin: 0px 10px;
+                font-size: 13px;
+                float: left;
+                line-height: 40px;
+                color: #FFF;
+            }
+
+                .rightc li a {
+                    color: #FFF;
+                }
+
+
+        .icon-small {
+            height: 18px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .icon-medium {
+            height: 22px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .active {
+            background-color: #2ea3f2;
+        }
+
+            .active > a {
+                color: #fff !important;
+            }
+
+
+        .service-item .card:hover {
+            background-color: #2ea3f2;
+        }
+
+
+            .service-item .card:hover a {
+                color: #fff;
+            }
+
+            .service-item .card:hover img {
+                border-radius: 20rem;
+            }
+    </style>
+</head>
+<body>
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.12&appId=169134270544395&autoLogAppEvents=1';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Navigation -->
+    @Html.Partial("./Navigations/_TopNavigation")
+    @Html.Partial("./Navigations/_MainNavigation")
+    @Html.Partial("./Navigations/_BreadCrumb")
+    @RenderBody()
+    @Html.Partial("./Layouts/_Footer")
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(function () {
+            /* Important bit... */
+            $(window).scroll(function () {
+                var $this = $(this);
+                var $nav = $('.navbar-brand');
+
+                if ($this.scrollTop() > 100) {
+                    $("nav").addClass("bg-dark");
+                    $("nav").addClass('fixed-top');
+                    $(".top_bar").hide();
+
+                    $nav.addClass('small');
+                } else {
+                    $("nav").removeClass("bg-dark");
+                    $("nav").removeClass('fixed-top');
+                    $(".top_bar").show();
+
+                    $nav.removeClass('small');
+                }
+            });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
